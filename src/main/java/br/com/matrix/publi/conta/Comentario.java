@@ -2,12 +2,29 @@ package br.com.matrix.publi.conta;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Comentario {
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mensagem;
-	private User autor;
+	@ManyToOne
+	private User user;
+	@ManyToOne
+	private Post post;
 	private LocalDateTime dataCriacao = LocalDateTime.now();
 	
+	public Comentario() {
+		
+	}
+	public Comentario(String mensagem) {
+		this.mensagem = mensagem;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -22,11 +39,11 @@ public class Comentario {
 		this.mensagem = mensagem;
 	}
 	
-	public User getAutor() {
-		return autor;
+	public User getUser() {
+		return user;
 	}
-	public void setAutor(User autor) {
-		this.autor = autor;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	public LocalDateTime getDataCriacao() {
@@ -34,6 +51,12 @@ public class Comentario {
 	}
 	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
+	}
+	public Post getPost() {
+		return post;
+	}
+	public void setPost(Post post) {
+		this.post = post;
 	}
 	
 	

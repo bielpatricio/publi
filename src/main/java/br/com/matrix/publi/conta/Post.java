@@ -4,32 +4,43 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Post {
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mensagem;
-	private User autor;
+//	@ManyToOne
+//	private User user;
 	private LocalDateTime dataPulicacao;
+	@OneToMany(mappedBy = "post")
 	private List<Comentario> comentario = new ArrayList<>();
+	@OneToMany(mappedBy = "post")
 	private List<Like> like = new ArrayList<>();
+	
+	public Post() {
+		
+	}
+	public Post(/*User user,*/ String mensagem) {
+		this.mensagem = mensagem;
+//		this.user = user;
+	}
 	
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getMensagem() {
 		return mensagem;
 	}
-	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
-	}
-	public User getAutor() {
-		return autor;
-	}
-	public void setAutor(User autor) {
-		this.autor = autor;
-	}
+//	public User getUser() {
+//		return user;
+//	}
 	public LocalDateTime getDataPulicacao() {
 		return dataPulicacao;
 	}

@@ -1,38 +1,42 @@
 package br.com.matrix.publi.conta;
 
-import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "Likes")
 public class Like {
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Boolean like;
-	private User autor;
-	private LocalDateTime dataCriacao = LocalDateTime.now();
+	
+	@ManyToOne
+	private User user;
+	@ManyToOne
+	private Post post;
+	
+	public Like() {
+		
+	}
 	
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
-	public User getAutor() {
-		return autor;
+	public User getUser() {
+		return user;
 	}
-	public void setAutor(User autor) {
-		this.autor = autor;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	
-	public LocalDateTime getDataCriacao() {
-		return dataCriacao;
+	public Post getPost() {
+		return post;
 	}
-	public void setDataCriacao(LocalDateTime dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
-	public Boolean getLike() {
-		return like;
-	}
-	public void setLike(Boolean like) {
-		this.like = like;
+	public void setPost(Post post) {
+		this.post = post;
 	}
 
 }
