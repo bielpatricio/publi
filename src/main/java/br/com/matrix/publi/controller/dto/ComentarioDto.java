@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.matrix.publi.conta.Comentario;
-import br.com.matrix.publi.conta.User;
 
 public class ComentarioDto {
 	private Long id;
@@ -42,7 +41,4 @@ public class ComentarioDto {
 	public String getNomeUser() {
 		return nomeUser;
 	}
-	
-	
-	
 }

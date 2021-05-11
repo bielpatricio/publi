@@ -1,11 +1,6 @@
 package br.com.matrix.publi.controller.form;
 
-import javax.persistence.ManyToOne;
-
-import br.com.matrix.publi.conta.Comentario;
 import br.com.matrix.publi.conta.Like;
-import br.com.matrix.publi.conta.Post;
-import br.com.matrix.publi.conta.User;
 
 public class LikeForm {
 	

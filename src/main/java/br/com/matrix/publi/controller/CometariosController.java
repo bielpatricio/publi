@@ -17,11 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.matrix.publi.conta.Comentario;
-import br.com.matrix.publi.conta.Post;
 import br.com.matrix.publi.controller.dto.ComentarioDto;
-import br.com.matrix.publi.controller.dto.PostDto;
 import br.com.matrix.publi.controller.form.ComentarioForm;
-import br.com.matrix.publi.controller.form.PostForm;
 import br.com.matrix.publi.repository.ComentarioRepository;
 
 @RestController

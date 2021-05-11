@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.matrix.publi.conta.Comentario;
-import br.com.matrix.publi.conta.Follow;
-import br.com.matrix.publi.conta.Like;
-import br.com.matrix.publi.conta.Post;
 import br.com.matrix.publi.conta.User;
 
 public class UserDto {
@@ -20,6 +16,10 @@ public class UserDto {
 	private List<UserDto> userSeguindo = new ArrayList<>();
 	private List<ComentarioDto> comentario = new ArrayList<>();
 	private List<LikeDto> like = new ArrayList<>();
+	private int TotalSeguidores;
+	private int TotalSeguindo; 
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -28,11 +28,12 @@ public class UserDto {
 		this.username = user.getUsername();
 		this.email = user.getEmail();
 		this.senha = user.getSenha();
-		this.userSeguido.addAll(user.getUserSeguido().stream().map(UserDto::new).collect(Collectors.toList()));
-		this.userSeguindo.addAll(user.getUserSeguindo().stream().map(UserDto::new).collect(Collectors.toList()));
+//		this.userSeguido.addAll(user.getUserSeguido().stream().map(UserDto::new).collect(Collectors.toList()));
+//		this.userSeguindo.addAll(user.getUserSeguindo().stream().map(UserDto::new).collect(Collectors.toList()));
 		this.comentario.addAll(user.getComentario().stream().map(ComentarioDto::new).collect(Collectors.toList()));
 		this.like.addAll(user.getLike().stream().map(LikeDto::new).collect(Collectors.toList()));
-		
+		this.TotalSeguidores = user.getUserSeguido().size();
+		this.TotalSeguindo = user.getUserSeguindo().size();
 	}
 	public String getUsername() {
 		return username;
@@ -62,6 +63,13 @@ public class UserDto {
 	
 	public static List<UserDto> converter(List<User> user) {
 		return user.stream().map(UserDto::new).collect(Collectors.toList());
+	}
+	
+	public int getTotalSeguindo() {
+		return TotalSeguindo;
+	}
+	public int getTotalSeguidores() {
+		return TotalSeguidores;
 	}
 	
 }

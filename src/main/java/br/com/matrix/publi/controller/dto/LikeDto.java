@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.matrix.publi.conta.Like;
-import br.com.matrix.publi.conta.Post;
-import br.com.matrix.publi.conta.User;
 
 public class LikeDto {
 

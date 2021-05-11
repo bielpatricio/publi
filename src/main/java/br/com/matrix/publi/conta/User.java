@@ -72,7 +72,7 @@ public class User {
 	public List<User> getUserSeguido() {
 		List<User> users = new ArrayList<>();
 		userSeguido.forEach(follow -> {
-			users.add(follow.getUserSeguido());
+			users.add(follow.getUserSeguindo());
 		});
 		return users;
 	}
@@ -82,7 +82,7 @@ public class User {
 	public List<User> getUserSeguindo() {
 		List<User> users = new ArrayList<>();
 		userSeguindo.forEach(follow -> {
-			users.add(follow.getUserSeguindo());
+			users.add(follow.getUserSeguido());
 		});
 		return users;
 	}

@@ -1,14 +1,31 @@
 package br.com.matrix.publi.controller;
 
+import java.net.URI;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.matrix.publi.conta.Post;
 import br.com.matrix.publi.conta.User;
+import br.com.matrix.publi.controller.dto.PostDto;
 import br.com.matrix.publi.controller.dto.UserDto;
+import br.com.matrix.publi.controller.dto.UserGitDto;
+import br.com.matrix.publi.controller.dto.gitDto;
+import br.com.matrix.publi.controller.form.PostForm;
+import br.com.matrix.publi.controller.form.UserForm;
 import br.com.matrix.publi.repository.UserRepository;
 
 @RestController
@@ -21,13 +38,35 @@ public class UserController {
 	@GetMapping
 	public List<UserDto> lista(String username) {
 		
-		if (username == null) {
-			List<User> user = userRepository.findAll();
-			return UserDto.converter(user);
-		} else {
-			List<User> user = userRepository.findByUsername(username);
-			return UserDto.converter(user);
-		}
+		List<User> user = userRepository.findAll();
+		return UserDto.converter(user);
+	}
+	
+	@GetMapping("/github/{user}")
+    public UserGitDto listarUserGit(@PathVariable("user") String user) {
+        RestTemplate restTemplate = new RestTemplate();
+        gitDto userGit = restTemplate.getForObject("https://api.github.com/users/"+user, gitDto.class);
+
+        User userR = userRepository.findByUsername(user);
+        UserGitDto userGitDto = new UserGitDto(userR, userGit);
+        return userGitDto;
+    }
+	
+	@PostMapping
+	@Transactional
+    public ResponseEntity<UserDto> cadastrar(@RequestBody @Validated UserForm form, UriComponentsBuilder uriBuilder){
+		User user = form.converter();
+		userRepository.save(user);
+
+		URI uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
+		return ResponseEntity.created(uri).body(new UserDto(user));
+    }
+	
+	@DeleteMapping("/{id}")
+	@Transactional
+	public ResponseEntity<?> remover(@PathVariable Long id){
+		userRepository.deleteById(id);
+		return ResponseEntity.ok().build();
 	}
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.com.matrix.publi.conta.Follow;
-import br.com.matrix.publi.conta.User;
 
 public class FollowDto {
 	private Long id;

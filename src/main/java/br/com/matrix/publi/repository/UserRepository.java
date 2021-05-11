@@ -8,6 +8,6 @@ import br.com.matrix.publi.conta.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	List<User> findByUsername(String username);
+	User findByUsername(String username);
 
 }
