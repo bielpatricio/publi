@@ -15,18 +15,24 @@ public class UserDto {
 	private String username;
 	private String email;
 	private String senha;
-	private List<Post> post = new ArrayList<>();
-	private List<Follow> user_seguido = new ArrayList<>();
-	private List<Follow> user_seguindo = new ArrayList<>();
-	private List<Comentario> comentario = new ArrayList<>();
-	private List<Like> like = new ArrayList<>();
+	private List<PostDto> post = new ArrayList<>();
+	private List<UserDto> userSeguido = new ArrayList<>();
+	private List<UserDto> userSeguindo = new ArrayList<>();
+	private List<ComentarioDto> comentario = new ArrayList<>();
+	private List<LikeDto> like = new ArrayList<>();
 	public Long getId() {
 		return id;
 	}
 	public UserDto(User user) {
+		this.id = user.getId();
 		this.username = user.getUsername();
 		this.email = user.getEmail();
 		this.senha = user.getSenha();
+		this.userSeguido.addAll(user.getUserSeguido().stream().map(UserDto::new).collect(Collectors.toList()));
+		this.userSeguindo.addAll(user.getUserSeguindo().stream().map(UserDto::new).collect(Collectors.toList()));
+		this.comentario.addAll(user.getComentario().stream().map(ComentarioDto::new).collect(Collectors.toList()));
+		this.like.addAll(user.getLike().stream().map(LikeDto::new).collect(Collectors.toList()));
+		
 	}
 	public String getUsername() {
 		return username;
@@ -37,19 +43,19 @@ public class UserDto {
 	public String getSenha() {
 		return senha;
 	}
-	public List<Post> getPost() {
+	public List<PostDto> getPost() {
 		return post;
 	}
-	public List<Follow> getUser_seguido() {
-		return user_seguido;
+	public List<UserDto> getUserSeguido() {
+		return userSeguido;
 	}
-	public List<Follow> getUser_seguindo() {
-		return user_seguindo;
+	public List<UserDto> getUserSeguindo() {
+		return userSeguindo;
 	}
-	public List<Comentario> getComentario() {
+	public List<ComentarioDto> getComentario() {
 		return comentario;
 	}
-	public List<Like> getLike() {
+	public List<LikeDto> getLike() {
 		return like;
 	}
 

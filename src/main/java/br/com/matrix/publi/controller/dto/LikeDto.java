@@ -10,19 +10,21 @@ import br.com.matrix.publi.conta.User;
 public class LikeDto {
 
 	private Long id;
-	private User user;
-	private Post post;
+	private UserDto user;
+	private PostDto post;
 	
 	public LikeDto(Like like) {
-		
+		this.id = like.getId();
+		this.user = new UserDto(like.getUser());
+		this.post = new PostDto(like.getPost());
 	}
 	public Long getId() {
 		return id;
 	}
-	public User getUser() {
+	public UserDto getUser() {
 		return user;
 	}
-	public Post getPost() {
+	public PostDto getPost() {
 		return post;
 	}
 	

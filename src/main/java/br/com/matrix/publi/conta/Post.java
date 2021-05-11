@@ -16,8 +16,8 @@ public class Post {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mensagem;
-//	@ManyToOne
-//	private User user;
+	@ManyToOne
+	private User user;
 	private LocalDateTime dataPulicacao;
 	@OneToMany(mappedBy = "post")
 	private List<Comentario> comentario = new ArrayList<>();
@@ -27,9 +27,9 @@ public class Post {
 	public Post() {
 		
 	}
-	public Post(/*User user,*/ String mensagem) {
+	public Post(String mensagem, User user) {
 		this.mensagem = mensagem;
-//		this.user = user;
+		this.user = user;
 	}
 	
 	public Long getId() {
@@ -38,9 +38,9 @@ public class Post {
 	public String getMensagem() {
 		return mensagem;
 	}
-//	public User getUser() {
-//		return user;
-//	}
+	public User getUser() {
+		return user;
+	}
 	public LocalDateTime getDataPulicacao() {
 		return dataPulicacao;
 	}

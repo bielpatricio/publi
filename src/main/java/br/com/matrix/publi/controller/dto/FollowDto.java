@@ -9,22 +9,23 @@ import br.com.matrix.publi.conta.User;
 
 public class FollowDto {
 	private Long id;
-	private User user_seguido;
-	private User user_seguindo;
+	private UserDto userSeguido;
+	private UserDto userSeguindo;
 	
 	public FollowDto(Follow follow) {
-		this.user_seguido = follow.getUser_seguido();
-		this.user_seguindo = follow.getUser_seguindo();
+		this.id = follow.getId();
+		this.userSeguido = new UserDto(follow.getUserSeguido());
+		this.userSeguindo = new UserDto(follow.getUserSeguindo());
 	}
 	
 	public Long getId() {
 		return id;
 	}
-	public User getUser_seguido() {
-		return user_seguido;
+	public UserDto getUserSeguido() {
+		return userSeguido;
 	}
-	public User getUser_seguindo() {
-		return user_seguindo;
+	public UserDto getUserSeguindo() {
+		return userSeguindo;
 	}
 	
 	public static List<FollowDto> converter(List<Follow> follow) {

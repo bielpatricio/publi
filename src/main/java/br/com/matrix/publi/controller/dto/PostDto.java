@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import br.com.matrix.publi.conta.Comentario;
 import br.com.matrix.publi.conta.Like;
 import br.com.matrix.publi.conta.Post;
@@ -13,14 +12,20 @@ import br.com.matrix.publi.conta.User;
 public class PostDto {
 	private Long id;
 	private String mensagem;
-//	private User user;
+	private UserDto user;
 	private LocalDateTime dataPulicacao;
-	private List<Comentario> comentario = new ArrayList<>();
-	private List<Like> like = new ArrayList<>();
+	private List<ComentarioDto> comentario = new ArrayList<>();
+	private List<LikeDto> like = new ArrayList<>();
+	private String nomeUser;
 	
 	public PostDto(Post post) {
+		this.id = post.getId();
 		this.mensagem = post.getMensagem();
-//		this.user = post.getUser();
+		this.user = new UserDto(post.getUser());
+		this.dataPulicacao = post.getDataPulicacao();
+		this.comentario.addAll(post.getComentario().stream().map(ComentarioDto::new).collect(Collectors.toList()));
+		this.like.addAll(post.getLike().stream().map(LikeDto::new).collect(Collectors.toList()));
+		this.nomeUser = post.getUser().getUsername();
 	}
 
 	public String getMensagem() {
@@ -31,23 +36,27 @@ public class PostDto {
 		return dataPulicacao;
 	}
 
-	public List<Comentario> getComentario() {
+	public List<ComentarioDto> getComentario() {
 		return comentario;
 	}
 
-//	public User getUser() {
-//		return user;
-//	}
+	public UserDto getUser() {
+		return user;
+	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public List<Like> getLike() {
+	public List<LikeDto> getLike() {
 		return like;
 	}
 	public static List<PostDto> converter(List<Post> post) {
 		return post.stream().map(PostDto::new).collect(Collectors.toList());
+	}
+
+	public String getNomeUser() {
+		return nomeUser;
 	}
 	
 }

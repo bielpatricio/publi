@@ -22,10 +22,10 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Post> post = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "user_seguido")
-	private List<Follow> user_seguido = new ArrayList<>();
-	@OneToMany(mappedBy = "user_seguindo")
-	private List<Follow> user_seguindo = new ArrayList<>();
+	@OneToMany(mappedBy = "userSeguido")
+	private List<Follow> userSeguido = new ArrayList<>();
+	@OneToMany(mappedBy = "userSeguindo")
+	private List<Follow> userSeguindo = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user")
 	private List<Comentario> comentario = new ArrayList<>();
@@ -69,25 +69,25 @@ public class User {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public List<User> getUser_seguido() {
+	public List<User> getUserSeguido() {
 		List<User> users = new ArrayList<>();
-		user_seguido.forEach(follow -> {
-			users.add(follow.getUser_seguido());
+		userSeguido.forEach(follow -> {
+			users.add(follow.getUserSeguido());
 		});
 		return users;
 	}
-	public void setUser_seguido(List<Follow> user_seguido) {
-		this.user_seguido = user_seguido;
+	public void setUserSeguido(List<Follow> userSeguido) {
+		this.userSeguido = userSeguido;
 	}
-	public List<User> getUser_seguindo() {
+	public List<User> getUserSeguindo() {
 		List<User> users = new ArrayList<>();
-		user_seguindo.forEach(follow -> {
-			users.add(follow.getUser_seguindo());
+		userSeguindo.forEach(follow -> {
+			users.add(follow.getUserSeguindo());
 		});
 		return users;
 	}
-	public void setUser_seguindo(List<Follow> user_seguindo) {
-		this.user_seguindo = user_seguindo;
+	public void setUserSeguindo(List<Follow> userSeguindo) {
+		this.userSeguindo = userSeguindo;
 	}
 
 	public List<Post> getPost() {

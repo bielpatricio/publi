@@ -13,27 +13,27 @@ public class Follow {
 	private Long id;
 	
 	@ManyToOne
-	private User user_seguido;
+	private User userSeguido;
 	@ManyToOne
-	private User user_seguindo;
+	private User userSeguindo;
 	
 	public Follow() {
 		
 	}
 	
-	public Follow(User user_seguindo, User user_seguido) {
-		this.user_seguido = user_seguido;
-		this.user_seguindo = user_seguindo;
+	public Follow(User userSeguindo, User userSeguido) {
+		this.userSeguido = userSeguido;
+		this.userSeguindo = userSeguindo;
 	}
 	
 	
 	public Long getId() {
 		return id;
 	}
-	public User getUser_seguido() {
-		return user_seguindo;
+	public User getUserSeguido() {
+		return userSeguindo;
 	}
-	public User getUser_seguindo() {
-		return user_seguido;
+	public User getUserSeguindo() {
+		return userSeguido;
 	}
 }
