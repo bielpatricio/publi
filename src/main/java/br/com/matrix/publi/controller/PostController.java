@@ -2,6 +2,7 @@ package br.com.matrix.publi.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -29,37 +30,52 @@ import br.com.matrix.publi.repository.UserRepository;
 public class PostController {
 	@Autowired
 	private PostRepository postRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@GetMapping
 	public List<PostDto> lista() {
 		List<Post> post = postRepository.findAll();
 		return PostDto.converter(post);
 	}
-	
-	@PostMapping
+
+	@PostMapping("/{user_id}")
 	@Transactional
-	public ResponseEntity<PostDto> publicar(@RequestBody @Validated PostForm form, UriComponentsBuilder uriBuilder){
-		User user = userRepository.getOne(form.getUser_id());
+	public ResponseEntity<PostDto> publicar(@RequestBody @Validated PostForm form, UriComponentsBuilder uriBuilder,
+			@PathVariable("user_id") Long user_id) {
+		User user = userRepository.getOne(user_id);
 		Post post = form.converter(user);
 		postRepository.save(post);
-		
-		URI uri = uriBuilder.path("/post/{id}").buildAndExpand(post.getId()).toUri();
+
+		URI uri = uriBuilder.path("/post/{user_id}").buildAndExpand(post.getId()).toUri();
 		return ResponseEntity.created(uri).body(new PostDto(post));
 	}
-	
-	@GetMapping("/{id}")
-	public PostDto especificar(@PathVariable Long id) {
-		Post post = postRepository.getOne(id);
-		return new PostDto(post);
+
+	@GetMapping("/{post_id}")
+	public ResponseEntity<PostDto> especificar(@PathVariable("post_id") Long post_id) {
+
+		Optional<Post> post = postRepository.findById(post_id);
+
+		if (post.isPresent()) {
+			PostDto postDto = new PostDto(post.get());
+
+			return ResponseEntity.status(200).body(postDto);
+		} else {
+			return ResponseEntity.status(404).build();
+		}
 	}
-	
-	@DeleteMapping("/{id}")
+
+	@DeleteMapping("/{post_id}")
 	@Transactional
-	public ResponseEntity<?> remover(@PathVariable Long id){
-		postRepository.deleteById(id);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<?> remover(@PathVariable("post_id") Long post_id) {
+		Post post = postRepository.getOne(post_id);
+
+		if (post != null) {
+			postRepository.deleteById(post.getId());
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
 	}
 }

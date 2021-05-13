@@ -10,54 +10,66 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "Post")
 public class Post {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mensagem;
 	@ManyToOne
 	private User user;
-	private LocalDateTime dataPulicacao;
 	@OneToMany(mappedBy = "post")
 	private List<Comentario> comentario = new ArrayList<>();
 	@OneToMany(mappedBy = "post")
 	private List<Like> like = new ArrayList<>();
-	
+	private LocalDateTime dataPulicacao = LocalDateTime.now();
+
 	public Post() {
-		
+
 	}
-	public Post(String mensagem, User user) {
+
+	public Post(User user, String mensagem) {
 		this.mensagem = mensagem;
 		this.user = user;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public String getMensagem() {
 		return mensagem;
 	}
+
 	public User getUser() {
 		return user;
 	}
+
 	public LocalDateTime getDataPulicacao() {
 		return dataPulicacao;
 	}
+
 	public void setDataPulicacao(LocalDateTime dataPulicacao) {
 		this.dataPulicacao = dataPulicacao;
 	}
+
 	public List<Comentario> getComentario() {
 		return comentario;
 	}
+
 	public void setComentario(List<Comentario> comentario) {
 		this.comentario = comentario;
 	}
+
 	public List<Like> getLike() {
 		return like;
 	}
+
 	public void setLike(List<Like> like) {
 		this.like = like;
-	} 
+	}
 
 }

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import br.com.matrix.publi.conta.Post;
 
 public class PostDto {
@@ -13,8 +14,9 @@ public class PostDto {
 	private LocalDateTime dataPulicacao;
 	private List<ComentarioDto> comentario = new ArrayList<>();
 	private List<LikeDto> like = new ArrayList<>();
-	private String nomeUser;
-	
+	private int TotalLikes;
+	private int TotalComentarios;
+
 	public PostDto(Post post) {
 		this.id = post.getId();
 		this.mensagem = post.getMensagem();
@@ -22,7 +24,8 @@ public class PostDto {
 		this.dataPulicacao = post.getDataPulicacao();
 		this.comentario.addAll(post.getComentario().stream().map(ComentarioDto::new).collect(Collectors.toList()));
 		this.like.addAll(post.getLike().stream().map(LikeDto::new).collect(Collectors.toList()));
-		this.nomeUser = post.getUser().getUsername();
+		this.TotalLikes = post.getLike().size();
+		this.TotalComentarios = post.getComentario().size();
 	}
 
 	public String getMensagem() {
@@ -48,12 +51,17 @@ public class PostDto {
 	public List<LikeDto> getLike() {
 		return like;
 	}
+
 	public static List<PostDto> converter(List<Post> post) {
 		return post.stream().map(PostDto::new).collect(Collectors.toList());
 	}
 
-	public String getNomeUser() {
-		return nomeUser;
+	public int getTotalLikes() {
+		return TotalLikes;
 	}
-	
+
+	public int getTotalComentarios() {
+		return TotalComentarios;
+	}
+
 }

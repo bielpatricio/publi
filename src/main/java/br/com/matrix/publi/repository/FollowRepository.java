@@ -1,6 +1,5 @@
 package br.com.matrix.publi.repository;
 
-import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

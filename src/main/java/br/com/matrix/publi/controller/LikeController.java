@@ -1,7 +1,7 @@
 package br.com.matrix.publi.controller;
 
-
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -27,47 +27,69 @@ import br.com.matrix.publi.repository.UserRepository;
 public class LikeController {
 	@Autowired
 	private LikeRepository likeRepository;
-	
+
 	@Autowired
 	private PostRepository postRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@GetMapping
 	public List<LikeDto> lista() {
 		List<Like> like = likeRepository.findAll();
 		return LikeDto.converter(like);
 	}
 
-	
 	@PostMapping("/{user_id}/{post_id}")
 	@Transactional
-	public ResponseEntity<?> seguir(@PathVariable("user_id") Long user_id, @PathVariable("post_id") Long post_id){
-		
+	public ResponseEntity<?> seguir(@PathVariable("user_id") Long user_id, @PathVariable("post_id") Long post_id) {
+
 		Post post = postRepository.getOne(post_id);
 		User user = userRepository.getOne(user_id);
-		
+
 		Like like_test = likeRepository.findByUserAndPost(user, post);
-		
+
 		System.out.println(like_test);
-		if(like_test==null) {
+		if (like_test == null) {
 			Like like = new Like(user, post);
 			likeRepository.save(like);
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.ok().build();
+
 	}
-	
+
 	@DeleteMapping("/{user_id}/{post_id}")
 	@Transactional
-	public ResponseEntity<?> remover_like(@PathVariable("user_id") Long user_id, @PathVariable("post_id") Long post_id){
+	public ResponseEntity<?> remover_like(@PathVariable("user_id") Long user_id,
+			@PathVariable("post_id") Long post_id) {
 		Post post = postRepository.getOne(post_id);
 		User user = userRepository.getOne(user_id);
-		
+
 		Like like_test = likeRepository.findByUserAndPost(user, post);
-		if(like_test!=null) {
+		System.out.println(like_test);
+		if (like_test != null) {
 			likeRepository.deleteById(like_test.getId());
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("{post_id}/likes")
+	public ResponseEntity<List<LikeDto>> especificar(@PathVariable("post_id") Long post_id) {
+
+		Optional<Post> post = postRepository.findById(post_id);
+
+		if (post.isPresent()) {
+			List<LikeDto> likeDto = LikeDto.converter(post.get().getLike());
+
+			return ResponseEntity.status(200).body(likeDto);
+
+		} else {
+			return ResponseEntity.status(404).build();
+		}
+
 	}
 }
