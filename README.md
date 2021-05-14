@@ -72,7 +72,7 @@
 
   </td>
   
-  td width="30%" valign="top">
+  <td width="30%" valign="top">
 
   ## Like
   - [x] CREATE
