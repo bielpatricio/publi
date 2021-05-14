@@ -1,6 +1,6 @@
 package br.com.matrix.publi.controller.form;
 
-import br.com.matrix.publi.conta.Like;
+import br.com.matrix.publi.model.Like;
 
 public class LikeForm {
 	

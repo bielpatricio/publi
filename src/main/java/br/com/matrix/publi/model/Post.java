@@ -1,9 +1,10 @@
-package br.com.matrix.publi.conta;
+package br.com.matrix.publi.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "Post")
@@ -21,9 +25,11 @@ public class Post {
 	private String mensagem;
 	@ManyToOne
 	private User user;
-	@OneToMany(mappedBy = "post")
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Comentario> comentario = new ArrayList<>();
-	@OneToMany(mappedBy = "post")
+	@OneToMany(mappedBy = "post", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Like> like = new ArrayList<>();
 	private LocalDateTime dataPulicacao = LocalDateTime.now();
 

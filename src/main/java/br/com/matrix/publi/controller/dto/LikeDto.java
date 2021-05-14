@@ -3,7 +3,7 @@ package br.com.matrix.publi.controller.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.matrix.publi.conta.Like;
+import br.com.matrix.publi.model.Like;
 
 public class LikeDto {
 

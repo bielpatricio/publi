@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.matrix.publi.conta.Post;
+import br.com.matrix.publi.model.Post;
 
 public class PostDto {
 	private Long id;

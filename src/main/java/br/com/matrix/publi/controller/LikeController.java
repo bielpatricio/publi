@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.matrix.publi.conta.Like;
-import br.com.matrix.publi.conta.Post;
-import br.com.matrix.publi.conta.User;
 import br.com.matrix.publi.controller.dto.LikeDto;
+import br.com.matrix.publi.model.Like;
+import br.com.matrix.publi.model.Post;
+import br.com.matrix.publi.model.User;
 import br.com.matrix.publi.repository.LikeRepository;
 import br.com.matrix.publi.repository.PostRepository;
 import br.com.matrix.publi.repository.UserRepository;
@@ -44,14 +44,14 @@ public class LikeController {
 	@Transactional
 	public ResponseEntity<?> seguir(@PathVariable("user_id") Long user_id, @PathVariable("post_id") Long post_id) {
 
-		Post post = postRepository.getOne(post_id);
-		User user = userRepository.getOne(user_id);
+		Optional<Post> post = postRepository.findById(post_id);
+		Optional<User> user = userRepository.findById(user_id);
 
-		Like like_test = likeRepository.findByUserAndPost(user, post);
+		Like like_test = likeRepository.findByUserAndPost(user.get(), post.get());
 
 		System.out.println(like_test);
-		if (like_test == null) {
-			Like like = new Like(user, post);
+		if (post.isPresent() && user.isPresent()) {
+			Like like = new Like(user.get(), post.get());
 			likeRepository.save(like);
 			return ResponseEntity.ok().build();
 		} else {
@@ -64,12 +64,12 @@ public class LikeController {
 	@Transactional
 	public ResponseEntity<?> remover_like(@PathVariable("user_id") Long user_id,
 			@PathVariable("post_id") Long post_id) {
-		Post post = postRepository.getOne(post_id);
-		User user = userRepository.getOne(user_id);
+		Optional<Post> post = postRepository.findById(post_id);
+		Optional<User> user = userRepository.findById(user_id);
 
-		Like like_test = likeRepository.findByUserAndPost(user, post);
+		Like like_test = likeRepository.findByUserAndPost(user.get(), post.get());
 		System.out.println(like_test);
-		if (like_test != null) {
+		if (post.isPresent() && user.isPresent()) {
 			likeRepository.deleteById(like_test.getId());
 			return ResponseEntity.ok().build();
 		} else {

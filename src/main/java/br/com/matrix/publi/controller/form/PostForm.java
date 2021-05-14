@@ -3,8 +3,8 @@ package br.com.matrix.publi.controller.form;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import br.com.matrix.publi.conta.Post;
-import br.com.matrix.publi.conta.User;
+import br.com.matrix.publi.model.Post;
+import br.com.matrix.publi.model.User;
 
 public class PostForm {
 

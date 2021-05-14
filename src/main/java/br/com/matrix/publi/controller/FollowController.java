@@ -1,6 +1,7 @@
 package br.com.matrix.publi.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.matrix.publi.conta.Follow;
-import br.com.matrix.publi.conta.User;
 import br.com.matrix.publi.controller.dto.UserDto;
+import br.com.matrix.publi.model.Follow;
+import br.com.matrix.publi.model.User;
 import br.com.matrix.publi.repository.FollowRepository;
 import br.com.matrix.publi.repository.UserRepository;
 
@@ -34,18 +35,18 @@ public class FollowController {
 	public ResponseEntity<?> seguir(@PathVariable("seguindo_id") Long seguindo_id,
 			@PathVariable("seguido_id") Long seguido_id) {
 
-		User userSeguindo = userRepository.getOne(seguindo_id);
-		User userSeguido = userRepository.getOne(seguido_id);
+		Optional<User> userSeguindo = userRepository.findById(seguindo_id);
+		Optional<User> userSeguido = userRepository.findById(seguido_id);
 
-		Follow follow_test = followRepository.findByUserSeguindoAndUserSeguido(userSeguindo, userSeguido);
+		Follow follow_test = followRepository.findByUserSeguindoAndUserSeguido(userSeguindo.get(), userSeguido.get());
 		System.out.println(follow_test);
-		if (follow_test == null) {
-			Follow follow = new Follow(userSeguindo, userSeguido);
+		if (userSeguindo.isPresent() && userSeguido.isPresent()) {
+			Follow follow = new Follow(userSeguindo.get(), userSeguido.get());
 			followRepository.save(follow);
-
+			return ResponseEntity.status(200).build();
+		} else {
+			return ResponseEntity.status(404).build();
 		}
-
-		return ResponseEntity.ok().build();
 
 	}
 
@@ -53,26 +54,45 @@ public class FollowController {
 	@Transactional
 	public ResponseEntity<?> UnFollow(@PathVariable("seguindo_id") Long seguindo_id,
 			@PathVariable("seguido_id") Long seguido_id) {
-		User userSeguindo = userRepository.getOne(seguindo_id);
-		User userSeguido = userRepository.getOne(seguido_id);
-		Follow follow_test = followRepository.findByUserSeguindoAndUserSeguido(userSeguindo, userSeguido);
-		if (follow_test != null) {
+		Optional<User> userSeguindo = userRepository.findById(seguindo_id);
+		Optional<User> userSeguido = userRepository.findById(seguido_id);
+		Follow follow_test = followRepository.findByUserSeguindoAndUserSeguido(userSeguindo.get(), userSeguido.get());
+		if (userSeguindo.isPresent() && userSeguido.isPresent()) {
 			followRepository.deleteById(follow_test.getId());
+			return ResponseEntity.status(200).build();
+		} else {
+			return ResponseEntity.status(404).build();
 		}
-
-		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/{seguindo_id}/seguindo")
 	public ResponseEntity<List<UserDto>> ListaSeguindo(@PathVariable("seguindo_id") Long seguindo_id) {
-		User user = userRepository.getOne(seguindo_id);
-		return ResponseEntity.ok().body(UserDto.converter(user.getUserSeguindo()));
+
+		Optional<User> user = userRepository.findById(seguindo_id);
+
+		if (user.isPresent()) {
+			List<UserDto> userDto = UserDto.converter(user.get().getUserSeguindo());
+
+			return ResponseEntity.status(200).body(userDto);
+
+		} else {
+			return ResponseEntity.status(404).build();
+		}
 	}
 
 	@GetMapping("/{seguido_id}/seguidores")
 	public ResponseEntity<List<UserDto>> ListaSeguidores(@PathVariable("seguido_id") Long seguido_id) {
-		User user = userRepository.getOne(seguido_id);
-		return ResponseEntity.ok().body(UserDto.converter(user.getUserSeguido()));
+
+		Optional<User> user = userRepository.findById(seguido_id);
+
+		if (user.isPresent()) {
+			List<UserDto> userDto = UserDto.converter(user.get().getUserSeguido());
+
+			return ResponseEntity.status(200).body(userDto);
+
+		} else {
+			return ResponseEntity.status(404).build();
+		}
 	}
 
 }

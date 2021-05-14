@@ -3,7 +3,7 @@ package br.com.matrix.publi.controller.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.matrix.publi.conta.User;
+import br.com.matrix.publi.model.User;
 
 public class UserDto {
 	private Long id;

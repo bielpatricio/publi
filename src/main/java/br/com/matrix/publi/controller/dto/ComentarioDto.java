@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import br.com.matrix.publi.conta.Comentario;
+import br.com.matrix.publi.model.Comentario;
 
 public class ComentarioDto {
 	private Long id;

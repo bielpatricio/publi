@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.matrix.publi.conta.Post;
-import br.com.matrix.publi.conta.User;
 import br.com.matrix.publi.controller.dto.PostDto;
 import br.com.matrix.publi.controller.form.PostForm;
+import br.com.matrix.publi.model.Post;
+import br.com.matrix.publi.model.User;
 import br.com.matrix.publi.repository.PostRepository;
 import br.com.matrix.publi.repository.UserRepository;
 
@@ -62,17 +62,17 @@ public class PostController {
 
 			return ResponseEntity.status(200).body(postDto);
 		} else {
-			return ResponseEntity.status(404).build();
+			return ResponseEntity.badRequest().build();
 		}
 	}
 
 	@DeleteMapping("/{post_id}")
 	@Transactional
 	public ResponseEntity<?> remover(@PathVariable("post_id") Long post_id) {
-		Post post = postRepository.getOne(post_id);
+		Optional<Post> post = postRepository.findById(post_id);
 
-		if (post != null) {
-			postRepository.deleteById(post.getId());
+		if (post.isPresent()) {
+			postRepository.deleteById(post.get().getId());
 			return ResponseEntity.ok().build();
 		} else {
 			return ResponseEntity.badRequest().build();

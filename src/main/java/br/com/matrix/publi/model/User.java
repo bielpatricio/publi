@@ -1,14 +1,18 @@
-package br.com.matrix.publi.conta;
+package br.com.matrix.publi.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "Users")
@@ -20,19 +24,24 @@ public class User {
 	private String email;
 	private String senha;
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Post> post = new ArrayList<>();
 
-	@OneToMany(mappedBy = "userSeguido")
+	@OneToMany(mappedBy = "userSeguido", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Follow> userSeguido = new ArrayList<>();
 
-	@OneToMany(mappedBy = "userSeguindo")
+	@OneToMany(mappedBy = "userSeguindo", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Follow> userSeguindo = new ArrayList<>();
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Comentario> comentario = new ArrayList<>();
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<Like> like = new ArrayList<>();
 
 	public User() {

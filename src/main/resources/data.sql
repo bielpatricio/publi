@@ -11,3 +11,6 @@ INSERT INTO LIKES(user_id, post_id) VALUES(3, 2);
 
 INSERT INTO COMENTARIO(user_id, post_id, mensagem, data_criacao) VALUES(1, 1, 'Massa', '2021-05-11 10:40:12.961');
 INSERT INTO COMENTARIO(user_id, post_id, mensagem, data_criacao) VALUES(1, 1, 'Né!!!!!!!!!', '2021-05-12 10:40:12.961');
+
+INSERT INTO FOLLOW(user_seguindo_id, user_seguido_id) VALUES(1, 2);
+INSERT INTO FOLLOW(user_seguindo_id, user_seguido_id) VALUES(2, 3);

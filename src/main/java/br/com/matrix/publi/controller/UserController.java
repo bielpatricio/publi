@@ -2,6 +2,7 @@ package br.com.matrix.publi.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -20,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.matrix.publi.conta.User;
 import br.com.matrix.publi.controller.dto.UserDto;
 import br.com.matrix.publi.controller.dto.UserGitDto;
 import br.com.matrix.publi.controller.dto.gitDto;
 import br.com.matrix.publi.controller.form.UserForm;
+import br.com.matrix.publi.model.User;
 import br.com.matrix.publi.repository.UserRepository;
 
 @RestController
@@ -67,8 +68,14 @@ public class UserController {
 	@Transactional
 	@CacheEvict(value = "userList", allEntries = true)
 	public ResponseEntity<?> remover(@PathVariable Long id) {
-		userRepository.deleteById(id);
-		return ResponseEntity.ok().build();
+
+		Optional<User> user = userRepository.findById(id);
+		if (user.isPresent()) {
+			userRepository.deleteById(id);
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
 	}
 
 }

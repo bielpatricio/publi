@@ -1,4 +1,4 @@
-package br.com.matrix.publi.conta;
+package br.com.matrix.publi.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

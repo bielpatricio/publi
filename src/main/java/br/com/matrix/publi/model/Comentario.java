@@ -1,4 +1,4 @@
-package br.com.matrix.publi.conta;
+package br.com.matrix.publi.model;
 
 import java.time.LocalDateTime;
 
