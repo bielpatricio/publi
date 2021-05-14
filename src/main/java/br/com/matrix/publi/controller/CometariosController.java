@@ -100,13 +100,13 @@ public class CometariosController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public ResponseEntity<?> remover(@PathVariable("id") Long id) {
-		Comentario comentario = comentarioRepository.getOne(id);
+		Optional<Comentario> comentario = comentarioRepository.findById(id);
 
-		if (comentario != null) {
-			comentarioRepository.deleteById(comentario.getId());
+		if (comentario.isPresent()) {
+			comentarioRepository.deleteById(comentario.get().getId());
 			return ResponseEntity.ok().build();
 		} else {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(404).build();
 		}
 	}
 

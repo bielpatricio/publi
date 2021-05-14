@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -16,7 +15,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles("test")
 @AutoConfigureMockMvc
 public class UserControllerTest {
 
@@ -25,16 +23,16 @@ public class UserControllerTest {
 
 	@Test
 	public void testeDeletar() throws Exception {
-		URI uri = new URI("users/10");
+		URI uri = new URI("/users/10");
 		mockMvc.perform(MockMvcRequestBuilders.delete(uri).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().is(404));
+				.andExpect(MockMvcResultMatchers.status().is(400));
 	}
 
 	@Test
 	public void FoundIdToGet() throws Exception {
-		URI uri = new URI("users/1");
-		mockMvc.perform(MockMvcRequestBuilders.get(uri).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().is(404));
+		URI uri = new URI("/users/1");
+		mockMvc.perform(MockMvcRequestBuilders.delete(uri).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().is(200));
 	}
 
 }

@@ -47,15 +47,18 @@ public class LikeController {
 		Optional<Post> post = postRepository.findById(post_id);
 		Optional<User> user = userRepository.findById(user_id);
 
-		Like like_test = likeRepository.findByUserAndPost(user.get(), post.get());
-
-		System.out.println(like_test);
 		if (post.isPresent() && user.isPresent()) {
-			Like like = new Like(user.get(), post.get());
-			likeRepository.save(like);
-			return ResponseEntity.ok().build();
+			Like like_test = likeRepository.findByUserAndPost(user.get(), post.get());
+			if (like_test != null) {
+				Like like = new Like(user.get(), post.get());
+				likeRepository.save(like);
+				return ResponseEntity.status(200).build();
+			} else {
+				return ResponseEntity.status(403).build();
+			}
+
 		} else {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(404).build();
 		}
 
 	}
@@ -67,13 +70,15 @@ public class LikeController {
 		Optional<Post> post = postRepository.findById(post_id);
 		Optional<User> user = userRepository.findById(user_id);
 
-		Like like_test = likeRepository.findByUserAndPost(user.get(), post.get());
-		System.out.println(like_test);
 		if (post.isPresent() && user.isPresent()) {
-			likeRepository.deleteById(like_test.getId());
-			return ResponseEntity.ok().build();
+			Like like_test = likeRepository.findByUserAndPost(user.get(), post.get());
+			if (like_test != null) {
+				likeRepository.deleteById(like_test.getId());
+				return ResponseEntity.ok().build();
+			}
+			return ResponseEntity.status(403).build();
 		} else {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(404).build();
 		}
 	}
 

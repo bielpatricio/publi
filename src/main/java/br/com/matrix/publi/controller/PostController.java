@@ -62,7 +62,7 @@ public class PostController {
 
 			return ResponseEntity.status(200).body(postDto);
 		} else {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(404).build();
 		}
 	}
 
@@ -75,7 +75,7 @@ public class PostController {
 			postRepository.deleteById(post.get().getId());
 			return ResponseEntity.ok().build();
 		} else {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(404).build();
 		}
 	}
 }

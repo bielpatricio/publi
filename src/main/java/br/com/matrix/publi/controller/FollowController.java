@@ -38,12 +38,16 @@ public class FollowController {
 		Optional<User> userSeguindo = userRepository.findById(seguindo_id);
 		Optional<User> userSeguido = userRepository.findById(seguido_id);
 
-		Follow follow_test = followRepository.findByUserSeguindoAndUserSeguido(userSeguindo.get(), userSeguido.get());
-		System.out.println(follow_test);
 		if (userSeguindo.isPresent() && userSeguido.isPresent()) {
-			Follow follow = new Follow(userSeguindo.get(), userSeguido.get());
-			followRepository.save(follow);
-			return ResponseEntity.status(200).build();
+			Follow follow_test = followRepository.findByUserSeguindoAndUserSeguido(userSeguindo.get(),
+					userSeguido.get());
+			if (follow_test != null) {
+				Follow follow = new Follow(userSeguindo.get(), userSeguido.get());
+				followRepository.save(follow);
+				return ResponseEntity.status(200).build();
+			} else {
+				return ResponseEntity.status(403).build();
+			}
 		} else {
 			return ResponseEntity.status(404).build();
 		}
@@ -56,10 +60,17 @@ public class FollowController {
 			@PathVariable("seguido_id") Long seguido_id) {
 		Optional<User> userSeguindo = userRepository.findById(seguindo_id);
 		Optional<User> userSeguido = userRepository.findById(seguido_id);
-		Follow follow_test = followRepository.findByUserSeguindoAndUserSeguido(userSeguindo.get(), userSeguido.get());
+
 		if (userSeguindo.isPresent() && userSeguido.isPresent()) {
-			followRepository.deleteById(follow_test.getId());
-			return ResponseEntity.status(200).build();
+			Follow follow_test = followRepository.findByUserSeguindoAndUserSeguido(userSeguindo.get(),
+					userSeguido.get());
+			if (follow_test != null) {
+				followRepository.deleteById(follow_test.getId());
+				return ResponseEntity.status(200).build();
+			} else {
+				return ResponseEntity.status(403).build();
+			}
+
 		} else {
 			return ResponseEntity.status(404).build();
 		}
