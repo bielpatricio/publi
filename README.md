@@ -1,10 +1,10 @@
 
 <h1 align="center">
-    provina-socialnetwork-api
+    Publi-api
   <p><img src="https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white"/> <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white"/> <img src="https://img.shields.io/badge/Eclipse-2C2255?style=for-the-badge&logo=eclipse&logoColor=white"/>
   <img src="https://img.shields.io/github/last-commit/Aguinaldofs/provina-socialnetwork?style=for-the-badge"></p>
 </h1>
-<h3 align="center">Experimental social network to share old exams and contents of INATEL!  </h3>
+<h3 align="center">Aplicação baseado na primeira versão do Twitter!  </h3>
 
 
 
@@ -18,7 +18,7 @@
 ### Nice to have
 - [ ] Organização do código.
 - [ ] Logging.
-- [x] Segurança (ex: JWT).
+- [ ] Segurança (ex: JWT).
 - [x] Cache.
 
 📝 Design Patterns
@@ -51,14 +51,13 @@
 
   ## User
   - [x] CREATE
-  - [x] UPDATE
   - [x] LIST
   - [x] DELETE
 
   </td>
   <td width="30%" valign="top">
 
-  ## Item
+  ## Publication
   - [x] CREATE
   - [x] LIST
   - [x] DELETE
@@ -72,11 +71,12 @@
   - [x] DELETE
 
   </td>
-
-  <td width="30%" valign="top">
   
-  ## Upvote
+  td width="30%" valign="top">
+
+  ## Like
   - [x] CREATE
+  - [x] LIST
   - [x] DELETE
 
   </td>
@@ -93,102 +93,3 @@
 - Install maven dependencies using IDE auto import or using the command ``mvn install``
 - Browse ``http://localhost:8080``
     
-📃 API Doc & Sample
-----------------
-
-###  Authentication Controller
-  
-  #### Content-Type
-  
-    application/json
-    
-  #### Body
-  
-    {
-      "email": "ag@gec.inatel.br",
-      "password": "123456"
-    }
-    
-  #### Paths
-  
-    POST /auth/login
------    
-### Item Controller
-
- #### Content-Type
-   ```
-   application/json
-   Authorization Bearer {{token}}
-   ```
- #### Paths
-  ```
-  POST /items
-  ```
-   ```
-  POST /items/{id}/comments
-  ```
-   ```
-  POST /items/{id}/upvotes
-  ```
-   ```
-  GET /items
-  ```
-  ```
-  GET /items/{id}
-  ```
-   ```
-  GET /items/{id}/comments
-  ```
-   ```
-  DELETE /items/{id}/comments/{id}
-  ```
-  ```
-  DELETE /items/{id}
-  ```
-  
-  ```
-  DELETE /items/{id}/upvotes
-  ```
------  
-### User Controller
- 
-  #### Content-Type
-   ```
-   application/json
-   
-   Authorization Bearer {{token}}
-   ```
-  #### Paths
-    
-    POST /user
-    
-   ```
-   GET /user/{id}
-   ```
-   ```
-   DELETE /user/{id}
-   ```
-   
-📲 External Tools
-----------------
-
-  #### ElephantSQL
-  ```
-  https://www.elephantsql.com
-  ```
-  #### Cloudinary
-  ```
-  https://cloudinary.com
-  ```
-  #### Swagger
-  ```
-  https://swagger.io
-  ```
-  #### Heroku
-  ```
-  https://www.heroku.com
-  ```
-  #### Spring Boot Admin
-  ```
-  https://codecentric.github.io/spring-boot-admin/2.3.1/
-  ```
