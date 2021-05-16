@@ -49,10 +49,10 @@ public class LikeController {
 
 		if (post.isPresent() && user.isPresent()) {
 			Like like_test = likeRepository.findByUserAndPost(user.get(), post.get());
-			if (like_test != null) {
+			if (like_test == null) {
 				Like like = new Like(user.get(), post.get());
 				likeRepository.save(like);
-				return ResponseEntity.status(200).build();
+				return ResponseEntity.status(201).build();
 			} else {
 				return ResponseEntity.status(403).build();
 			}

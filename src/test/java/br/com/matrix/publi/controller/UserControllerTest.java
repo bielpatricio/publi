@@ -25,7 +25,7 @@ public class UserControllerTest {
 	public void testeDeletar() throws Exception {
 		URI uri = new URI("/users/10");
 		mockMvc.perform(MockMvcRequestBuilders.delete(uri).contentType(MediaType.APPLICATION_JSON))
-				.andExpect(MockMvcResultMatchers.status().is(400));
+				.andExpect(MockMvcResultMatchers.status().is(404));
 	}
 
 	@Test

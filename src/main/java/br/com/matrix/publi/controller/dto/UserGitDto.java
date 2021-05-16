@@ -8,7 +8,7 @@ public class UserGitDto {
 	private String userGit;
 	private String company;
 
-	public UserGitDto(User user, gitDto gitdto) {
+	public UserGitDto(User user, GitDto gitdto) {
 		this.id = user.getId();
 		this.name = gitdto.getName();
 		this.userGit = gitdto.getLogin();

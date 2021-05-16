@@ -23,7 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.matrix.publi.controller.dto.UserDto;
 import br.com.matrix.publi.controller.dto.UserGitDto;
-import br.com.matrix.publi.controller.dto.gitDto;
+import br.com.matrix.publi.controller.dto.GitDto;
 import br.com.matrix.publi.controller.form.UserForm;
 import br.com.matrix.publi.model.User;
 import br.com.matrix.publi.repository.UserRepository;
@@ -46,7 +46,7 @@ public class UserController {
 	@GetMapping("/github/{user}")
 	public UserGitDto listarUserGit(@PathVariable("user") String user) {
 		RestTemplate restTemplate = new RestTemplate();
-		gitDto userGit = restTemplate.getForObject("https://api.github.com/users/" + user, gitDto.class);
+		GitDto userGit = restTemplate.getForObject("https://api.github.com/users/" + user, GitDto.class);
 
 		User userR = userRepository.findByUsername(user);
 		UserGitDto userGitDto = new UserGitDto(userR, userGit);
@@ -74,7 +74,7 @@ public class UserController {
 			userRepository.deleteById(id);
 			return ResponseEntity.ok().build();
 		} else {
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(404).build();
 		}
 	}
 

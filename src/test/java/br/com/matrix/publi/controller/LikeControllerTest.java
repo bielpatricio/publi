@@ -36,6 +36,13 @@ public class LikeControllerTest {
 	}
 
 	@Test
+	public void FoundIdToPost() throws Exception {
+		URI uri = new URI("/likes/1/2");
+		mockMvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().is(201));
+	}
+
+	@Test
 	public void NotFoundIdToDelete() throws Exception {
 		URI uri = new URI("/likes/10/6");
 		mockMvc.perform(MockMvcRequestBuilders.delete(uri).contentType(MediaType.APPLICATION_JSON))

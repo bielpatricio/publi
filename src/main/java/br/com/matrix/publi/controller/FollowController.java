@@ -41,10 +41,10 @@ public class FollowController {
 		if (userSeguindo.isPresent() && userSeguido.isPresent()) {
 			Follow follow_test = followRepository.findByUserSeguindoAndUserSeguido(userSeguindo.get(),
 					userSeguido.get());
-			if (follow_test != null) {
+			if (follow_test == null) {
 				Follow follow = new Follow(userSeguindo.get(), userSeguido.get());
 				followRepository.save(follow);
-				return ResponseEntity.status(200).build();
+				return ResponseEntity.status(201).build();
 			} else {
 				return ResponseEntity.status(403).build();
 			}

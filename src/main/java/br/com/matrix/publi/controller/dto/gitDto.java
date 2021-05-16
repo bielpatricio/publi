@@ -1,6 +1,6 @@
 package br.com.matrix.publi.controller.dto;
 
-public class gitDto {
+public class GitDto {
 	private Long id;
 	private String name;
 	private String company;

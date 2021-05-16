@@ -29,6 +29,13 @@ public class FollowControllerTest {
 	}
 
 	@Test
+	public void FoundIdTopost() throws Exception {
+		URI uri = new URI("/follow/1/3");
+		mockMvc.perform(MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.status().is(201));
+	}
+
+	@Test
 	public void NotFoundIdToDelete() throws Exception {
 		URI uri = new URI("/follow/1/6");
 		mockMvc.perform(MockMvcRequestBuilders.delete(uri).contentType(MediaType.APPLICATION_JSON))
@@ -37,7 +44,7 @@ public class FollowControllerTest {
 
 	@Test
 	public void NotFoundIdToDelete2() throws Exception {
-		URI uri = new URI("/follow/1/3");
+		URI uri = new URI("/follow/3/2");
 		mockMvc.perform(MockMvcRequestBuilders.delete(uri).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().is(403));
 	}

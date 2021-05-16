@@ -51,14 +51,23 @@ public class CometariosController {
 			UriComponentsBuilder uriBuilder, @PathVariable("user_id") Long user_id,
 			@PathVariable("post_id") Long post_id) {
 
-		Post post = postRepository.getOne(form.getPost_id());
-		User user = userRepository.getOne(form.getUser_id());
+		Optional<Post> post = postRepository.findById(post_id);
+		Optional<User> user = userRepository.findById(user_id);
 
-		Comentario comentario = form.converter(user, post);
-		comentarioRepository.save(comentario);
+		if (post.isPresent())
+			if (post.isPresent()) {
+				Comentario comentario = form.converter(user.get(), post.get());
+				comentarioRepository.save(comentario);
 
-		URI uri = uriBuilder.path("/comentario/{user_id}/{post_id}s").buildAndExpand(comentario.getId()).toUri();
-		return ResponseEntity.created(uri).body(new ComentarioDto(comentario));
+				URI uri = uriBuilder.path("/comentario/{comentario_id}").buildAndExpand(comentario.getId()).toUri();
+				return ResponseEntity.created(uri).body(new ComentarioDto(comentario));
+			} else {
+				return ResponseEntity.status(404).build();
+			}
+		else {
+			return ResponseEntity.status(404).build();
+		}
+
 	}
 
 	@GetMapping("/{post_id}/{id}")
